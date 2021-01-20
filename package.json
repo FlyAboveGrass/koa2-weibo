@@ -6,12 +6,15 @@
     "start": "node bin/www",
     "dev": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon bin/www",
     "prd": "cross-env NODE_ENV=production pm2 start bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --ext .js ./src"
   },
   "dependencies": {
+    "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.3",
     "debug": "^4.1.1",
     "ejs": "~2.3.3",
+    "eslint": "^7.18.0",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
     "koa-convert": "^1.2.0",
