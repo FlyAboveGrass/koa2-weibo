@@ -5,12 +5,17 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const path = require('path')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
+const error = require('./routes/view/error')
 
 // error handler
-onerror(app)
+let errorConf = {
+    redirect: '/error'
+}
+onerror(app, errorConf)
 
 // middlewares
 app.use(bodyparser({
@@ -20,7 +25,7 @@ app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 
-app.use(views(__dirname + '/views', {
+app.use(views(path.join(__dirname, '/views'), {
     extension: 'ejs'
 }))
 
@@ -35,6 +40,8 @@ app.use(views(__dirname + '/views', {
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+
+app.use(error.routes(), error.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
