@@ -14,6 +14,7 @@ const { SESSION_KEY } = require('./conf/secret-key')
 const index = require('./routes/index')
 const users = require('./routes/users')
 const userApiRouter = require('./routes/api/user')
+const userViewRouter = require('./routes/view/user')
 const errorViewRouter = require('./routes/view/error')
 
 
@@ -61,6 +62,7 @@ app.use(session({
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(userApiRouter.routes(), userApiRouter.allowedMethods())
+app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
 // error-handling

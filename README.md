@@ -13,4 +13,4 @@
 
 ### 组织架构
 
-![](E:\Code\node\koa2-weibo\uploadFiles\node项目组织架构.png)
+![](.\uploadFiles\node项目组织架构.png)
