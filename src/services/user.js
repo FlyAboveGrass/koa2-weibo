@@ -1,4 +1,5 @@
-const { User } = require('../db/model/index')
+const { User } = require('../db/model/index');
+const doCrypto = require('../utils/crypto');
 
 const getUserInfo = async (userName, password) => {
 console.log('file: user.js ~ line 4 ~ getUserInfo ~ userName', userName, password);
@@ -20,7 +21,7 @@ console.log('file: user.js ~ line 4 ~ getUserInfo ~ userName', userName, passwor
 const createUser = async ({ userName, password, gender = 3, nickName }) => {
     const result = await User.create({
         userName,
-        password,
+        password: doCrypto(password),
         nickName: nickName ? nickName : userName,
         gender
     })
