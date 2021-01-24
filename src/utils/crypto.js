@@ -1,5 +1,5 @@
 const crypto = require('crypto')
-const { PASSWORD_CRYPTO_KEY } = require('../conf/secret-key')
+const { PASSWORD_CRYPTO_KEY } = require('@/conf/secret-key')
 
 // 加密算法
 function _md5(content) {

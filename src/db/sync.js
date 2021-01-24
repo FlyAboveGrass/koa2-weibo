@@ -1,5 +1,5 @@
-const seq = require('./seq')
-require('./model')
+const seq = require('@/db/seq')
+require('@/db/model')
 
 seq.authenticate().then(() => {
     console.log('数据库验证成功')

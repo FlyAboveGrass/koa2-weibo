@@ -1,5 +1,5 @@
-const seq = require('../seq')
-const { STRING, DECIMAL } = require('../types')
+const seq = require('@/db/seq')
+const { STRING, DECIMAL } = require('@/db/types')
 const User = seq.define('user', {
     userName: {
         type: STRING,

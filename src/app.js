@@ -1,5 +1,6 @@
 const Koa = require('koa')
 const app = new Koa()
+require('module-alias/register');
 const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
@@ -11,11 +12,11 @@ const session = require('koa-generic-session')
 const { REDIS_CONF } = require('./conf/db')
 const { SESSION_KEY } = require('./conf/secret-key')
 
-const index = require('./routes/index')
-const users = require('./routes/users')
-const userApiRouter = require('./routes/api/user')
-const userViewRouter = require('./routes/view/user')
-const errorViewRouter = require('./routes/view/error')
+const index = require('@/routes/index')
+const users = require('@/routes/users')
+const userApiRouter = require('@/routes/api/user')
+const userViewRouter = require('@/routes/view/user')
+const errorViewRouter = require('@/routes/view/error')
 
 
 // error handler

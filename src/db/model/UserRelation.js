@@ -1,5 +1,5 @@
-const seq = require('../seq')
-const { INTEGER } = require('../types')
+const seq = require('@/db/seq')
+const { INTEGER } = require('@/db/types')
 
 const UserRelation = seq.define('userRelation', {
     userId: {

@@ -1,5 +1,5 @@
-const { ErrorModel, SuccessModel } = require('../model/resModel')
-const { getUserInfo, createUser } = require('../services/user')
+const { ErrorModel, SuccessModel } = require('@/model/resModel')
+const { getUserInfo, createUser } = require('@/services/user')
 
 async function isExist(userName) {
     const user = await getUserInfo(userName)

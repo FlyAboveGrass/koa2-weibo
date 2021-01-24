@@ -27,11 +27,15 @@
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "koa-views": "^6.2.0",
+    "module-alias": "^2.2.2",
     "mysql2": "^2.2.5",
     "redis": "^3.0.2",
     "sequelize": "^6.4.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
+  },
+  "_moduleAliases": {
+    "@": "src"
   }
 }
