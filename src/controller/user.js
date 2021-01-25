@@ -24,13 +24,14 @@ async function register({ userName, password, gender }) {
     }
 }
 
-async function login(userName, password) {
+async function login(ctx, userName, password) {
     const userInfo = await getUserInfo(userName, password)
-    console.log('file: user.js ~ line 29 ~ login ~ userInfo', userInfo);
 
     if(!userInfo) {
         return new ErrorModel('用户不存在')
     }
+
+    ctx.session.userInfo = userInfo
     return new SuccessModel(userInfo)
 }
 

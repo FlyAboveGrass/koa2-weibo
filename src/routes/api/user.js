@@ -25,7 +25,7 @@ userValidator
 // 登录
 router.post('/login', async (ctx, next) => {
     const { userName, password } = ctx.request.body
-    ctx.body = await login(userName, password)
+    ctx.body = await login(ctx, userName, password)
 })
 
 router.get('/session-test', async (ctx, next) => {

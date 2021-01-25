@@ -12,10 +12,10 @@ const session = require('koa-generic-session')
 const { REDIS_CONF } = require('./conf/db')
 const { SESSION_KEY } = require('./conf/secret-key')
 
-const index = require('@/routes/index')
-const users = require('@/routes/users')
 const userApiRouter = require('@/routes/api/user')
+const blogApiRouter = require('@/routes/api/blog')
 const userViewRouter = require('@/routes/view/user')
+const blogViewRouter = require('@/routes/view/blog')
 const errorViewRouter = require('@/routes/view/error')
 
 
@@ -60,10 +60,11 @@ app.use(session({
 // })
 
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
 app.use(userApiRouter.routes(), userApiRouter.allowedMethods())
+app.use(blogApiRouter.routes(), blogApiRouter.allowedMethods())
+
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
+app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods())
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
 // error-handling
