@@ -6,11 +6,14 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const koaStatic = require('koa-static')
+const koaMount=require('koa-mount')
 const path = require('path')
 const redisStore = require('koa-redis')
 const session = require('koa-generic-session')
 const { REDIS_CONF } = require('./conf/db')
 const { SESSION_KEY } = require('./conf/secret-key')
+
 
 const userApiRouter = require('@/routes/api/user')
 const blogApiRouter = require('@/routes/api/blog')
@@ -33,7 +36,10 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+
+// 如果没有在public里面找到，就回去uploadFiles里面找
+app.use(koaStatic(__dirname + '/public'))
+app.use(koaStatic(path.resolve(__dirname, '..') + '/uploadFiles'))
 
 app.use(views(path.join(__dirname, '/views'), {
     extension: 'ejs'

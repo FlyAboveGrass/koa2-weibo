@@ -50,9 +50,9 @@
             processData: false,
             data: formData,
             success: function(res) {
-                if (res.errno !== 0) {
+                if (res.code !== 0) {
                     // 错误
-                    callback(res.message)
+                    callback(res)
                     return
                 }
                 // 正确
