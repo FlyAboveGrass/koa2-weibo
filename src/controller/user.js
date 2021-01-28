@@ -1,6 +1,7 @@
 const { User } = require('@/db/model')
 const { ErrorModel, SuccessModel } = require('@/model/resModel')
 const { getUserInfo, createUser } = require('@/services/user')
+const doCrypto = require('@/utils/crypto')
 
 async function isExist(userName) {
     const user = await getUserInfo(userName)
@@ -26,7 +27,7 @@ async function register({ userName, password, gender }) {
 }
 
 async function login(ctx, userName, password) {
-    const userInfo = await getUserInfo(userName, password)
+    const userInfo = await getUserInfo(userName, doCrypto(password))
 
     if(!userInfo) {
         return new ErrorModel('用户不存在')
@@ -55,9 +56,22 @@ async function changeUserInfo({userName}, { city, picture, gender, nickName }) {
     return result&&result.length > 0 ? result[0] : null
 }
 
+async function changePassword(userName, password, newPassword) {
+    console.log('file: user.js ~ line 59 ~ changePassword ~ userName, password, newPassword', userName, password, newPassword);
+    const result = await User.update({
+        password: doCrypto(newPassword)
+    }, {
+        where: { userName, password: doCrypto(password) }
+    })
+    console.log('file: user.js ~ line 66 ~ changePassword ~ result', result);
+
+    return result&&result[0] ? Boolean(result[0]) : false
+}
+
 module.exports = {
     isExist,
     register,
     login,
-    changeUserInfo
+    changeUserInfo,
+    changePassword
 }

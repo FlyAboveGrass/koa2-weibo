@@ -1,5 +1,5 @@
 const router = require('koa-router')()
-const { isExist, register, login, changeUserInfo } = require('@/controller/user')
+const { isExist, register, login, changeUserInfo, changePassword } = require('@/controller/user')
 const { loginRedirect } = require('@/middleware/loginCheck')
 const genValidator = require('@/middleware/validator')
 const { ErrorModel, SuccessModel } = require('@/model/resModel')
@@ -44,7 +44,20 @@ router.patch('/changeInfo', loginRedirect, genValidator(userValidator), async (c
     ctx.body = new SuccessModel(result)
 })
 
+router.post('/logout', loginRedirect, async (ctx, next) => {
+    delete ctx.session.userInfo
+    ctx.redirect('/login')
+})
 
+// 修改密码
+router.patch('/changePassword', loginRedirect, genValidator(userValidator), async (ctx, next) => {
+    const { password, newPassword } = ctx.request.body
+    const { userName } = ctx.session.userInfo
+    const result = await changePassword(userName, password, newPassword)
+
+    ctx.body = result ? new SuccessModel(result) : new ErrorModel('更新失败')
+
+})
 
 router.get('/session-test', async (ctx, next) => {
     if(!ctx.session || !ctx.session.viewCount) {

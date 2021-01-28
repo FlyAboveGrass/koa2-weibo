@@ -6,7 +6,8 @@ function genValidator(validatorFn) {
         const error = validatorFn(ctx.request.body)
 
         if(error) {
-            ctx.body = new ErrorModel('输入格式错误')
+            // console.log('格式验证error', error);
+            ctx.body = new ErrorModel(error[0].message)
             return ;
         }
         await next()
