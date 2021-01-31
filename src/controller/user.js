@@ -1,3 +1,4 @@
+const { DEFAULT_FACE } = require('@/conf/constant')
 const { User } = require('@/db/model')
 const { ErrorModel, SuccessModel } = require('@/model/resModel')
 const { getUserInfo, createUser } = require('@/services/user')
@@ -19,7 +20,7 @@ async function register({ userName, password, gender }) {
     }
 
     try {
-        await createUser({ userName, password, gender })
+        await createUser({ userName, password, gender, picture: DEFAULT_FACE })
         return new SuccessModel('注册成功')
     } catch(e) {
         return new ErrorModel('注册失败')

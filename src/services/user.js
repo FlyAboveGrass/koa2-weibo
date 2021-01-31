@@ -16,12 +16,13 @@ const getUserInfo = async (userName, password) => {
     return users
 }
 
-const createUser = async ({ userName, password, gender = 3, nickName }) => {
+const createUser = async ({ userName, password, gender = 3, nickName, picture }) => {
     const result = await User.create({
         userName,
         password: doCrypto(password),
         nickName: nickName ? nickName : userName,
-        gender
+        gender,
+        picture: picture ? picture : ''
     })
     const data = result.dataValues
 
