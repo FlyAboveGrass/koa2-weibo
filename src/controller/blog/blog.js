@@ -1,4 +1,4 @@
-const { PAGER } = require("@/conf/constant");
+const { Pager } = require("@/conf/constant");
 const { Blog } = require("@/db/model");
 const { getBlogList } = require("@/services/blog/blog");
 const { formatBlog } = require("@/services/_format");
@@ -13,7 +13,8 @@ async function createBlog(userId, content, image) {
     return result;
 }
 
-async function getBlog(id = null, pager = PAGER) {
+async function getBlog(id = null, pager = new Pager()) {
+    console.log('file: blog.js ~ line 17 ~ getBlog ~ pager', pager);
     const result = await getBlogList(id, pager)
 
     let { count, rows: blogList } = result

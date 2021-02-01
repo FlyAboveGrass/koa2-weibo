@@ -1,7 +1,7 @@
-const { PAGER } = require("@/conf/constant");
+const { PAGER, Pager } = require("@/conf/constant");
 const { Blog, User, UserRelation } = require("@/db/model/index");
 
-async function getBlogList(userId, pager = PAGER) {
+async function getBlogList(userId, pager = new Pager()) {
     try {
         const result = await Blog.findAndCountAll({
             limit: pager.pageSize,

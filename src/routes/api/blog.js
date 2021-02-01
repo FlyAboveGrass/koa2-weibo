@@ -1,7 +1,8 @@
-const { PAGER } = require('@/conf/constant')
+const { PAGER, Pager } = require('@/conf/constant')
 const { createBlog, getBlog } = require('@/controller/blog/blog')
 const { loginRedirect } = require('@/middleware/loginCheck')
 const { SuccessModel, ErrorModel } = require('@/model/resModel')
+const deepClone = require('@/services/utils/clone')
 const { renderBlogListTempl } = require('@/utils/blogUtils')
 
 const router = require('koa-router')()
@@ -10,7 +11,7 @@ router.prefix('/api/blog')
 
 router.get('/loadMore/:pageIndex', async (ctx, next) => {
     const { pageIndex } = ctx.params
-    const page = PAGER
+    const page = new Pager()
     page.pageIndex = Number.parseInt(pageIndex)
 
     const { id: userId } = ctx.session.userInfo

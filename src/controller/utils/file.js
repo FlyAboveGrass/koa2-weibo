@@ -18,7 +18,6 @@ async function saveFile({ size, filePath, name, type }) {
     const fileName = Date.now() + '.' + name // 防止重名
     const distFilePath = path.join(DIST_FOLDER_PATH, fileName) // 目的地
     await fse.move(filePath, distFilePath)
-    console.log('file: file.js ~ line 24 ~ saveFile ~ filePath', filePath, distFilePath);
     // 返回信息
     return new SuccessModel({
 

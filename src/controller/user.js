@@ -58,13 +58,11 @@ async function changeUserInfo({userName}, { city, picture, gender, nickName }) {
 }
 
 async function changePassword(userName, password, newPassword) {
-    console.log('file: user.js ~ line 59 ~ changePassword ~ userName, password, newPassword', userName, password, newPassword);
     const result = await User.update({
         password: doCrypto(newPassword)
     }, {
         where: { userName, password: doCrypto(password) }
     })
-    console.log('file: user.js ~ line 66 ~ changePassword ~ result', result);
 
     return result&&result[0] ? Boolean(result[0]) : false
 }

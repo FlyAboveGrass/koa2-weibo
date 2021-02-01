@@ -9,7 +9,6 @@ router.prefix('/api/utils')
 // 在线上的环境，一般是多个进程同时运行一个服务，这时候如果将文件存在一个进程的文件夹里面是不合理的，需要我们
 // 把文件放到同一个资源服务里面，按所有的进程都可以访问
 router.post('/upload', loginCheck, koaFrom(),  async (ctx, next) => {
-    // console.log('file: utils.js ~ line 8 ~ router.post ~ ctx', ctx.req.files);
     const file =  ctx.req.files['file'];
     if(!file) {
         return 

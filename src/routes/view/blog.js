@@ -16,12 +16,6 @@ router.get('/', async (ctx, next) => {
 
     // 博客信息
     const blogData = await getBlog(userId)
-    console.log('file: blog.js ~ line 19 ~ router.get ~ blogData', blogData);
-
-
-
-
-    
 
 
     const options = {

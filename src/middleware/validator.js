@@ -6,7 +6,6 @@ function genValidator(validatorFn) {
         const error = validatorFn(ctx.request.body)
 
         if(error) {
-            // console.log('格式验证error', error);
             ctx.body = new ErrorModel(error[0].message)
             return ;
         }
