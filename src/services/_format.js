@@ -1,9 +1,7 @@
+const { REG_AT_WHO } = require("@/conf/constant")
 const deepClone = require("./utils/clone")
 const timeFormat = require("./utils/timeFormat")
 
-// from '哈喽 @张三 - zhangsan 你好'
-// to '哈喽 <a href="/profile/zhangsan">张三</a> 你好'
-const REG_AT_WHO = /@(.+)\s-\s(\w+)/g
 
 function formatBlog(blog) {
     if(!blog) {

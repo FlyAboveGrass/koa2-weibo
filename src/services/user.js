@@ -8,7 +8,6 @@ const getUserInfo = async (userName, password) => {
     if(password) {
         Object.assign(options, { password })
     }
-    console.log('options', options);
     const users = await User.findOne({
         attribute: ['userName', 'nickName', 'city', 'gender'],
         where: options

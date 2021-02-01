@@ -1,4 +1,5 @@
-const { createBlog } = require('@/controller/blog/blog')
+const { PAGER } = require('@/conf/constant')
+const { createBlog, getBlog } = require('@/controller/blog/blog')
 const { loginRedirect } = require('@/middleware/loginCheck')
 const { SuccessModel, ErrorModel } = require('@/model/resModel')
 
@@ -6,8 +7,15 @@ const router = require('koa-router')()
 
 router.prefix('/api/blog')
 
-router.get('/', async (ctx, next) => {
-    
+router.get('/loadMore/:pageIndex', async (ctx, next) => {
+    const { pageIndex } = ctx.params
+    const page = PAGER
+    page.pageIndex = pageIndex
+
+    const { id: userId } = ctx.session.userInfo
+
+    const result = await getBlog(userId, page)
+    ctx.body = new SuccessModel(result)
 })
 router.post('/create', loginRedirect, async (ctx, next) => {
     const { content, image } = ctx.request.body
