@@ -73,9 +73,9 @@
             contentType: 'application/json;charset=UTF-8',
             data: params ? JSON.stringify(params) : '',
             success: function(res) {
-                if (res.errno !== 0) {
+                if (res.code !== 0) {
                     // 错误
-                    callback(res.message)
+                    callback(res.msg)
                     return
                 }
                 // 正确

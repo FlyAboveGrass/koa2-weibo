@@ -25,7 +25,6 @@ async function getBlogList(userId, pager = PAGER) {
             data.user = data.user.dataValues
             return data
         })
-        console.log(' result.rows', result.rows[0].user);
         return {
             count: result.count,
             rows: result.rows
