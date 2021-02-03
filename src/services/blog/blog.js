@@ -1,8 +1,13 @@
-const { PAGER, Pager } = require("@/conf/constant");
+const { Pager } = require("@/conf/constant");
 const { Blog, User, UserRelation } = require("@/db/model/index");
 
 async function getBlogList(userId, pager = new Pager()) {
     try {
+        const searchOpt = {}
+        if(userId) {
+            Object.assign(searchOpt, { id: userId })
+        }
+
         const result = await Blog.findAndCountAll({
             limit: pager.pageSize,
             offset: pager.pageSize * pager.pageIndex,
@@ -15,7 +20,7 @@ async function getBlogList(userId, pager = new Pager()) {
                 { 
                     model: User,
                     attribute: ['userName', 'nickName', 'picture'],
-                    where: { id: userId }
+                    where: searchOpt
                 }
             ]
         })

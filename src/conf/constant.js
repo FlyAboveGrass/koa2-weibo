@@ -19,9 +19,12 @@ class Pager {
 const REG_AT_WHO = /@(.+)\s-\s(\w+)/g
 
 
+const SQUARE_CACHE_PREFIX = 'weibo:square'
+
 module.exports = {
     DEFAULT_FACE,
     PAGER,
     Pager,
-    REG_AT_WHO
+    REG_AT_WHO,
+    SQUARE_CACHE_PREFIX
 }

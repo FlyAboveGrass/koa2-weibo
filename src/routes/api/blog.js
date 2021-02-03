@@ -1,8 +1,7 @@
-const { PAGER, Pager } = require('@/conf/constant')
+const { Pager } = require('@/conf/constant')
 const { createBlog, getBlog } = require('@/controller/blog/blog')
 const { loginRedirect } = require('@/middleware/loginCheck')
 const { SuccessModel, ErrorModel } = require('@/model/resModel')
-const deepClone = require('@/services/utils/clone')
 const { renderBlogListTempl } = require('@/utils/blogUtils')
 
 const router = require('koa-router')()

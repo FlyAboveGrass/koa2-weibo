@@ -14,7 +14,6 @@ async function createBlog(userId, content, image) {
 }
 
 async function getBlog(id = null, pager = new Pager()) {
-    console.log('file: blog.js ~ line 17 ~ getBlog ~ pager', pager);
     const result = await getBlogList(id, pager)
 
     let { count, rows: blogList } = result
@@ -31,7 +30,21 @@ async function getBlog(id = null, pager = new Pager()) {
     }
 }
 
+async function getSquareBlog(pager = new Pager()) {
+    const result = await getSquareCache(pager)
+    const blogList = result.blogList || []
+
+    return {
+        blogList,
+        isEmpty: blogList.length > 0,
+        count: result.count,
+        pageIndex: pager.pageIndex,
+        pageSize: pager.pageSize
+    }
+}
+
 module.exports = {
     createBlog,
-    getBlog
+    getBlog,
+    getSquareBlog
 }
