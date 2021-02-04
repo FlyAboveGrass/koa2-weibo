@@ -67,6 +67,7 @@ async function changePassword(userName, password, newPassword) {
     return result&&result[0] ? Boolean(result[0]) : false
 }
 
+
 module.exports = {
     isExist,
     register,

@@ -75,7 +75,7 @@
             success: function(res) {
                 if (res.code !== 0) {
                     // 错误
-                    callback(res.msg)
+                    callback(res.message)
                     return
                 }
                 // 正确

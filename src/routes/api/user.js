@@ -1,5 +1,5 @@
 const router = require('koa-router')()
-const { isExist, register, login, changeUserInfo, changePassword } = require('@/controller/user')
+const { isExist, register, login, changeUserInfo, changePassword } = require('@/controller/user/user')
 const { loginRedirect } = require('@/middleware/loginCheck')
 const genValidator = require('@/middleware/validator')
 const { ErrorModel, SuccessModel } = require('@/model/resModel')

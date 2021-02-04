@@ -1,9 +1,11 @@
 const getSquareCache = require('@/cache/squareCache');
 const { Pager } = require('@/conf/constant');
 const { getBlog } = require('@/controller/blog/blog');
-const { isExist } = require('@/controller/user');
+const { getFans, getFollowers } = require('@/controller/user/profile');
+const { isExist } = require('@/controller/user/user');
 const { loginRedirect } = require('@/middleware/loginCheck');
-const { getUserInfo } = require('@/services/user')
+const { followed } = require('@/services/user/profile');
+const { getUserInfo } = require('@/services/user/user')
 
 const router = require('koa-router')()
 
@@ -55,9 +57,11 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
     const myUserInfo = ctx.session.userInfo
     const myUserName = myUserInfo.userName
 
+    // 当前用户信息
     let curUserInfo
     const { userName: curUserName } = ctx.params
     const isMe = myUserName === curUserName
+    let amIFollowed = true
     if (isMe) {
         // 是当前登录用户
         curUserInfo = myUserInfo
@@ -70,9 +74,36 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
         }
         // 用户名存在
         curUserInfo = existResult.data
+
+        // 我是否关注了此人
+        const { id: curUserId } = await getUserInfo(curUserName)
+        amIFollowed = await followed(myUserInfo.id, curUserId)
+        console.log('not me, amIFollowed', amIFollowed);
     }
 
+    // 个人博客信息
+    const blogData = await getBlog(myUserInfo.id)
 
+    // 粉丝信息
+    const fansData = await getFans(myUserInfo.id)
+
+    // 我关注的
+    const followersData = await getFollowers(myUserInfo.id)
+
+    
+
+    await ctx.render('profile', {
+        blogData,
+        userData: {
+            userInfo: curUserInfo,
+            isMe,
+            amIFollowed,
+            atCount: 12,
+            fansData,
+            followersData
+        },
+
+    })
 })
 
 // 广场

@@ -8,9 +8,9 @@ const PAGER = {
 // 以Pager的常量来，各个实例会共享，一个修改了另一个也跟着修改
 // 以类的方式创建，每次都会返回一个新的实例
 class Pager {
-    constructor() {
-        this.pageIndex = 0
-        this.pageSize = 5
+    constructor(pageIndex = 0, pageSize = 5) {
+        this.pageIndex = pageIndex
+        this.pageSize = pageSize
     }
 }
 
