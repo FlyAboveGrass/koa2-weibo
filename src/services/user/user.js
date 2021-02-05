@@ -12,7 +12,6 @@ const getUserInfo = async (userName, password) => {
         attribute: ['id', 'userName', 'nickName', 'city', 'gender'],
         where: options
     })
-    console.log('users', users);
     return users
 }
 
@@ -34,7 +33,6 @@ async function addFollower(curUser, userId) {
         userId,
         followerId: curUser
     })
-    console.log('file: user.js ~ line 37 ~ addFollower ~ result', result);
     return result ? result.dataValues : null
 }
 

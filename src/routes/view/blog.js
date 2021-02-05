@@ -60,6 +60,7 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
     // 当前用户信息
     let curUserInfo
     const { userName: curUserName } = ctx.params
+    const { id: curUserId } = await getUserInfo(curUserName)
     const isMe = myUserName === curUserName
     let amIFollowed = true
     if (isMe) {
@@ -76,19 +77,17 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
         curUserInfo = existResult.data
 
         // 我是否关注了此人
-        const { id: curUserId } = await getUserInfo(curUserName)
         amIFollowed = await followed(myUserInfo.id, curUserId)
-        console.log('not me, amIFollowed', amIFollowed);
     }
 
     // 个人博客信息
-    const blogData = await getBlog(myUserInfo.id)
+    const blogData = await getBlog(curUserId)
 
     // 粉丝信息
-    const fansData = await getFans(myUserInfo.id)
+    const fansData = await getFans(curUserId)
 
     // 我关注的
-    const followersData = await getFollowers(myUserInfo.id)
+    const followersData = await getFollowers(curUserId)
 
     
 

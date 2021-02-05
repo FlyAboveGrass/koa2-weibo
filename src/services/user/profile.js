@@ -16,7 +16,8 @@ async function getFansList(userId, pager = new Pager(0,10)) {
             }
         ]
     })
-    fansList = result.rows.map(fan => fan.itemValue)
+    fansList = result.rows.map(fan => fan.dataValues)
+    console.log('file: profile.js ~ line 20 ~ getFansList ~ fansList', fansList);
     return {
         count: result.count,
         fansList
@@ -41,8 +42,6 @@ async function getFollowerList(userId, pager = new Pager(0, 10)) {
 
     followerList = result.rows.map(follower => follower.dataValues)
 
-    console.log(result.rows);
-
     return {
         count: result.count,
         followerList
@@ -56,7 +55,6 @@ async function followed(myUserName, curUserName) {
             followerId: myUserName
         }
     })
-    console.log('file: profile.js ~ line 59 ~ followed ~ result', result);
 
     return result ? true : false
 }
