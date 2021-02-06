@@ -1,10 +1,10 @@
 const getSquareCache = require('@/cache/squareCache');
 const { Pager } = require('@/conf/constant');
-const { getBlog } = require('@/controller/blog/blog');
+const { getBlog, getAtMeBlog } = require('@/controller/blog/blog');
 const { getFans, getFollowers } = require('@/controller/user/profile');
 const { isExist } = require('@/controller/user/user');
 const { loginRedirect } = require('@/middleware/loginCheck');
-const { followed } = require('@/services/user/profile');
+const { followed, getAtCount } = require('@/services/user/profile');
 const { getUserInfo } = require('@/services/user/user')
 
 const router = require('koa-router')()
@@ -16,21 +16,31 @@ const router = require('koa-router')()
 // })
 
 router.get('/', loginRedirect, async (ctx, next) => {
-    const { id: userId, userName } = ctx.session.userInfo;
-    // 用户信息
-    const userInfo = await getUserInfo(userName)
+    // 已登录用户的信息
+    const { id: userId } = ctx.session.userInfo
 
-    // 博客信息
-    const blogData = await getBlog(userId)
+    // 当前用户信息
+    const atCount = await getAtCount(userId, false)
 
+    // 个人博客信息
+    const blogData = await getBlog(userId, { includeFollow: true })
 
-    const options = {
+    // 粉丝信息
+    const fansData = await getFans(userId)
+
+    // 我关注的
+    const followersData = await getFollowers(userId)
+
+    await ctx.render('index', {
+        blogData,
         userData: {
-            userInfo
+            userInfo: ctx.session.userInfo,
+            atCount,
+            fansData,
+            followersData
         },
-        blogData
-    }
-    await ctx.render('index', options)
+
+    })
 })
 
 router.get('/blog/create', async(ctx, next) => {
@@ -63,9 +73,13 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
     const { id: curUserId } = await getUserInfo(curUserName)
     const isMe = myUserName === curUserName
     let amIFollowed = true
+    let atCount = 0
     if (isMe) {
         // 是当前登录用户
         curUserInfo = myUserInfo
+
+        // @数量
+        atCount = await getAtCount(myUserInfo, false)
     } else {
         // 不是当前登录用户
         const existResult = await isExist(curUserName)
@@ -81,7 +95,7 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
     }
 
     // 个人博客信息
-    const blogData = await getBlog(curUserId)
+    const blogData = await getBlog(curUserId, new Pager())
 
     // 粉丝信息
     const fansData = await getFans(curUserId)
@@ -97,7 +111,38 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
             userInfo: curUserInfo,
             isMe,
             amIFollowed,
-            atCount: 12,
+            atCount,
+            fansData,
+            followersData
+        },
+
+    })
+})
+
+router.get('/at-me', loginRedirect, async (ctx, next) => {
+    // 已登录用户的信息
+    const { id: userId } = ctx.session.userInfo
+
+    // 当前用户信息
+    const atCount = await getAtCount(userId, false)
+
+    // 个人博客信息 
+    const blogData = await getAtMeBlog(userId)
+
+    // 粉丝信息
+    const fansData = await getFans(userId)
+
+    // 我关注的
+    const followersData = await getFollowers(userId)
+
+    
+
+    await ctx.render('atMe', {
+        atCount,
+        blogData,
+        userData: {
+            userInfo: ctx.session.userInfo,
+            atCount,
             fansData,
             followersData
         },

@@ -1,5 +1,5 @@
 const { Pager } = require("@/conf/constant")
-const { UserRelation, User } = require("@/db/model")
+const { UserRelation, User, AtRelation } = require("@/db/model")
 
 async function getFansList(userId, pager = new Pager(0,10)) {
     const result = await User.findAndCountAll({
@@ -17,7 +17,6 @@ async function getFansList(userId, pager = new Pager(0,10)) {
         ]
     })
     fansList = result.rows.map(fan => fan.dataValues)
-    console.log('file: profile.js ~ line 20 ~ getFansList ~ fansList', fansList);
     return {
         count: result.count,
         fansList
@@ -59,8 +58,23 @@ async function followed(myUserName, curUserName) {
     return result ? true : false
 }
 
+async function getAtCount(userId, isRead) {
+    const whereOpt = {
+        userId
+    }
+    if(isRead) {
+        Object.assign(whereOpt, { isRead })
+    }
+    const result = await AtRelation.findAndCountAll({
+        where: whereOpt
+    })
+
+    return (result && result.count) || 0
+}
+
 module.exports = {
     getFansList,
     getFollowerList,
-    followed
+    followed,
+    getAtCount
 }

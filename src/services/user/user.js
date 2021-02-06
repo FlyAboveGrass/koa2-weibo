@@ -1,4 +1,4 @@
-const { User, UserRelation } = require('@/db/model/index');
+const { User, UserRelation, AtRelation } = require('@/db/model/index');
 const doCrypto = require('@/utils/crypto');
 
 const getUserInfo = async (userName, password) => {
@@ -46,9 +46,19 @@ async function delFollower(curUser, userId) {
     return result
 }
 
+async function createAtRelation(blogId, userId) {
+    const result = await AtRelation.create({
+        blogId,
+        userId,
+        isRead: false,
+    })
+    return result
+}
+
 module.exports = {
     getUserInfo,
     createUser,
     addFollower,
-    delFollower
+    delFollower,
+    createAtRelation
 }

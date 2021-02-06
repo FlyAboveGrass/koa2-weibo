@@ -9,11 +9,11 @@ router.prefix('/api/square')
 
 router.get('/loadMore/:pageIndex', async (ctx, next) => {
     const { pageIndex } = ctx.params
-    const page = new Pager()
-    page.pageIndex = Number.parseInt(pageIndex)
+    const pager = new Pager()
+    pager.pageIndex = Number.parseInt(pageIndex)
 
-    const result = await getBlog(null, page)
-    result.blogListTpl = renderBlogListTempl(result.blogList)
+    const result = await getBlog(null, {pager})
+    result.blogListTpl = renderBlogListTempl(result.blogList, false)
     ctx.body = new SuccessModel(result)
 })
 

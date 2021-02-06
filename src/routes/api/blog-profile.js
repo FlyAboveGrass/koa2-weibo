@@ -32,7 +32,7 @@ router.get('/loadMore/:userName/:pageIndex', async (ctx, next) => {
 
     const { id: curUserId } = await getUserInfo(userName)
 
-    const blogData = await getBlog(curUserId, pager)
+    const blogData = await getBlog(curUserId, {pager})
     if(!blogData) {
         ctx.body = new ErrorModel('加载失败')
     }
