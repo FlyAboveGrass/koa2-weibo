@@ -136,10 +136,6 @@ async function getAtMeBlogList(userId, pager = new Pager()) {
             data.user = data.user.dataValues
             return data
         })
-        console.log('file: blog.js ~ line 135 ~ result.rows=result.rows.map ~ result', result);
-
-
-
         
         return {
             count: result.count,
@@ -150,8 +146,16 @@ async function getAtMeBlogList(userId, pager = new Pager()) {
     }
 }
 
+async function updateAtRelation(newOpt, whereOpt) {
+    const result = await AtRelation.update(newOpt, {
+        where: whereOpt
+    })
+    return result || null
+}
+
 module.exports = {
     getBlogList,
     getBlogAboutMe,
+    updateAtRelation,
     getAtMeBlogList
 }

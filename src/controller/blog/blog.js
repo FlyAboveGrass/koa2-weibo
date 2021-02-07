@@ -1,6 +1,6 @@
 const { Pager, REG_AT_WHO } = require("@/conf/constant");
 const { Blog } = require("@/db/model");
-const { getBlogList, getBlogAboutMe } = require("@/services/blog/blog");
+const { getBlogList, getBlogAboutMe, updateAtRelation } = require("@/services/blog/blog");
 const { getUserInfo, createAtRelation } = require("@/services/user/user");
 const { formatBlog } = require("@/services/_format");
 const xss = require('xss')
@@ -86,6 +86,10 @@ async function getAtMeBlog(userId, pager = new Pager()) {
     }
 }
 
+async function markReaded(userId) {
+    const result = await updateAtRelation({ isRead: true}, { userId, isRead: false})
+}
+
 async function getSquareBlog(pager = new Pager()) {
     const result = await getSquareCache(pager)
     const blogList = result.blogList || []
@@ -103,5 +107,6 @@ module.exports = {
     createBlog,
     getBlog,
     getAtMeBlog,
-    getSquareBlog
+    getSquareBlog,
+    markReaded
 }

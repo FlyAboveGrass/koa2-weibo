@@ -1,6 +1,6 @@
 const getSquareCache = require('@/cache/squareCache');
 const { Pager } = require('@/conf/constant');
-const { getBlog, getAtMeBlog } = require('@/controller/blog/blog');
+const { getBlog, getAtMeBlog, markReaded } = require('@/controller/blog/blog');
 const { getFans, getFollowers } = require('@/controller/user/profile');
 const { isExist } = require('@/controller/user/user');
 const { loginRedirect } = require('@/middleware/loginCheck');
@@ -79,7 +79,7 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
         curUserInfo = myUserInfo
 
         // @数量
-        atCount = await getAtCount(myUserInfo, false)
+        atCount = await getAtCount(myUserInfo.id, false)
     } else {
         // 不是当前登录用户
         const existResult = await isExist(curUserName)
@@ -146,8 +146,9 @@ router.get('/at-me', loginRedirect, async (ctx, next) => {
             fansData,
             followersData
         },
-
     })
+
+    await markReaded(userId)
 })
 
 // 广场

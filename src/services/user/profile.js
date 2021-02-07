@@ -62,7 +62,7 @@ async function getAtCount(userId, isRead) {
     const whereOpt = {
         userId
     }
-    if(isRead) {
+    if(isRead !== undefined) {
         Object.assign(whereOpt, { isRead })
     }
     const result = await AtRelation.findAndCountAll({
